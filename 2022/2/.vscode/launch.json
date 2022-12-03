@@ -1,0 +1,11 @@
+{
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Launch Java Program",
+        "request": "launch",
+        "mainClass": "com.adventofcode.App",
+        "args": "rockpaperscissors/src/test/resources/puzzle.txt"
+    }
+    ]
+}

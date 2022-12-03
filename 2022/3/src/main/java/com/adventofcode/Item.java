@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Item {
 
+    private Character itemIdentifier;
+
     private static final int START_FOR_LOWER_CASE = 1;
     private static final int START_FOR_UPPER_CASE = 27;
-
-    private Character itemIdentifier;
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
     public Item(Character itemIdentifier) {

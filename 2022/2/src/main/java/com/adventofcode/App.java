@@ -13,8 +13,8 @@ public class App
     {
         StrategyGuideReader strategyGuideReader = new StrategyGuideReader(new File(args[0]));
         try {
-            StrategyGuide strategyGuide = strategyGuideReader.read();
-            System.out.println(strategyGuide.getTotalScore());
+            Rounds rounds = strategyGuideReader.read();
+            System.out.println(rounds.getTotalScore());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

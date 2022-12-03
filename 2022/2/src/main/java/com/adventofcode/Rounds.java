@@ -10,8 +10,10 @@ class Rounds {
         this.rounds = rounds;
     }
 
-    public int getTotalScore() {
-        return rounds.stream().mapToInt(round -> round.getScoreForPlayer2()).sum();
+    int getTotalScore() {
+        return rounds.stream()
+                .mapToInt(round -> round.getScoreForPlayer2())
+                .sum();
     }
 
 

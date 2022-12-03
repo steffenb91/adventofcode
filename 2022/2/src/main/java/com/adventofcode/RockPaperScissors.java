@@ -1,6 +1,6 @@
 package com.adventofcode;
 
-public enum RockPaperScissors {
+enum RockPaperScissors {
     
     ROCK(1), PAPER(2), SCISSORS(3), ERROR(-1);
 
@@ -10,11 +10,11 @@ public enum RockPaperScissors {
         this.score = score;
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
-    public static RockPaperScissors fromString(String input){
+    static RockPaperScissors fromString(String input){
         if("A".equals(input)){
             return ROCK;
         }
@@ -28,7 +28,7 @@ public enum RockPaperScissors {
         throw new IllegalArgumentException(String.format("Could not parse input %s.", input));
     }
 
-    public boolean beats(RockPaperScissors player2) {
+    boolean beats(RockPaperScissors player2) {
         switch(this) {
             case ROCK: 
                 return player2.equals(SCISSORS);
@@ -41,7 +41,7 @@ public enum RockPaperScissors {
         }
     }
 
-    public static RockPaperScissors withStrategy(RockPaperScissors other, String strategy) {
+    static RockPaperScissors withStrategy(RockPaperScissors other, String strategy) {
         if("X".equals(strategy)){
             return shouldLooseAgainst(other);
         }

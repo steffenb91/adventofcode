@@ -14,18 +14,22 @@ class StrategyGuideReader {
         this.file = file;
     }
 
-    StrategyGuide read() throws IOException {
+    Rounds read() throws IOException {
         String input = Files.readString(file.toPath());
         List<Round> allRounds = new ArrayList<>();
-        
-        for (String round : input.split("\\n")) {    
-            String[] strategy = round.split(" ");
-            RockPaperScissors player1 = RockPaperScissors.fromString(strategy[0]);
-            allRounds.add(
-                    new Round(player1, 
-                                RockPaperScissors.withStrategy(player1, strategy[1])));
+
+        for (String round : input.split("\\n")) {
+            allRounds.add(getRoundFromStrategyGuide(round));
         }
-        return new StrategyGuide(new Rounds(allRounds));
+
+        return new Rounds(allRounds);
+    }
+
+    private Round getRoundFromStrategyGuide(String round) {
+        String[] match = round.split(" ");
+        RockPaperScissors player1Choice = RockPaperScissors.fromString(match[0]);
+        RockPaperScissors player2Choice = RockPaperScissors.withStrategy(player1Choice, match[1]);
+        return new Round(player1Choice, player2Choice);
     }
 
 }

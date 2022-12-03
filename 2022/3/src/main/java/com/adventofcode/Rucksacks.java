@@ -18,7 +18,8 @@ class Rucksacks {
 
     int getTotalPriorityForGroups() {
         int result = 0;
-        for (int i = 0; i < rucksacks.size(); i += 3) {
+        int groupSize = 3;
+        for (int i = 0; i < rucksacks.size(); i += groupSize) {
             result += rucksacks.get(i).getCommonItem(rucksacks.get(i + 1), rucksacks.get(i + 2))
                     .map(item -> item.getPriority()).orElse(0);
         }

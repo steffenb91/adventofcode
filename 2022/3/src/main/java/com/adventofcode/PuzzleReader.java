@@ -17,9 +17,11 @@ class PuzzleReader {
     Rucksacks readPuzzle() throws IOException {
         String puzzle = Files.readString(file.toPath());
         List<Rucksack> rucksacks = new ArrayList<>();
-        for (String line : puzzle.split("\\n")) {
-            rucksacks.add(new Rucksack(line));
+        
+        for (String rucksackLine : puzzle.split("\\n")) {
+            rucksacks.add(new Rucksack(rucksackLine));
         }
+
         return new Rucksacks(rucksacks);
     }
 }

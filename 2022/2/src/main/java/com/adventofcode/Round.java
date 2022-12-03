@@ -1,6 +1,6 @@
 package com.adventofcode;
 
-public class Round {
+class Round {
 
     private RockPaperScissors player1;
     private RockPaperScissors player2;

@@ -32,14 +32,22 @@ class Rucksack {
         return common.map(item -> item.getPriority()).orElse(0);
     }
 
-    public Optional<Item> getCommonItem(Rucksack other, Rucksack another) {
+    public Optional<Item> getCommonItem(Rucksack second, Rucksack third) {
         for (Character character : items.toCharArray()) {
-            if (other.items.contains(String.valueOf(character)) 
-                    && another.items.contains(String.valueOf(character))) {
+            if (isCommonItem(second, third, character)) {
                 return Optional.of(new Item(character));
             }
         }
         return Optional.empty();
+    }
+
+    private boolean isCommonItem(Rucksack second, Rucksack third, Character character) {
+        return second.items.contains(asString(character)) 
+                && third.items.contains(asString(character));
+    }
+
+    private String asString(Character character) {
+        return String.valueOf(character);
     }
 
 }

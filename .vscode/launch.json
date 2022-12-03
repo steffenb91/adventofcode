@@ -1,0 +1,31 @@
+{
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Launch Rucksack Program",
+        "request": "launch",
+        "projectName": "rucksack",
+        "mainClass": "com.adventofcode.App",
+        "args": "2022/3/src/test/resources/test.txt"
+
+    },
+    {
+        "type": "java",
+        "name": "Launch Calorie counter Program",
+        "request": "launch",
+        "projectName": "caloriecounter",
+        "mainClass": "com.adventofcode.App",
+        "args": "2022/1/src/test/resources/test.txt"
+
+    },
+    {
+        "type": "java",
+        "name": "Launch Rock/Paper/Scissors Program",
+        "request": "launch",
+        "projectName": "rockpaperscissors",
+        "mainClass": "com.adventofcode.App",
+        "args": "2022/2/src/test/resources/test.txt"
+
+    }
+    ]
+}

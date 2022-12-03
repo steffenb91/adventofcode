@@ -1,13 +1,19 @@
 package com.adventofcode;
 
-/**
- * Hello world!
- *
- */
+import java.io.File;
+import java.io.IOException;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        PuzzleReader puzzleReader = new PuzzleReader(new File(args[0]));
+        try {
+            Rucksacks rucksacks = puzzleReader.readPuzzle();
+            System.out.println(rucksacks.getTotalPriority());
+            System.out.println(rucksacks.getTotalPriorityForGroups());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

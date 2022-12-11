@@ -1,16 +1,16 @@
-package com.adventofcode;
+package com.adventofcode.core;
 
 import java.util.List;
 
-class Rounds {
+public class Rounds {
 
     private List<Round> rounds;
 
-    Rounds(List<Round> rounds) {
+    public Rounds(List<Round> rounds) {
         this.rounds = rounds;
     }
 
-    int getTotalScore() {
+    public int getTotalScore() {
         return rounds.stream()
                 .mapToInt(round -> round.getScoreForPlayer2())
                 .sum();

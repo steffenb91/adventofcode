@@ -1,16 +1,19 @@
-package com.adventofcode;
+package com.adventofcode.core;
 
-class Round {
+public class Round {
 
-    private RockPaperScissors player1;
-    private RockPaperScissors player2;
+    private Entity player1;
+    private Entity player2;
 
-    Round(RockPaperScissors player1, RockPaperScissors player2) {
+    private static final int EXTRA_POINTS_ON_WIN = 6;
+    private static final int EXTRA_POINTS_ON_DRAW = 3;
+
+    public Round(Entity player1, Entity player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
 
-    int getScoreForPlayer2() {
+    public int getScoreForPlayer2() {
         if (player1.beats(player2)) {
             return calculateScoreAsLooser();
         } else if (player1.equals(player2)) {
@@ -21,11 +24,11 @@ class Round {
     }
 
     private int calculateScoreAsDraw() {
-        return player2.getScore() + 3;
+        return player2.getScore() + EXTRA_POINTS_ON_DRAW;
     }
 
     private int calculateScoreAsWinner() {
-        return player2.getScore() + 6;
+        return player2.getScore() + EXTRA_POINTS_ON_WIN;
     }
 
     private int calculateScoreAsLooser() {

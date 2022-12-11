@@ -6,6 +6,12 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.adventofcode.core.Entity;
+import com.adventofcode.core.Round;
+import com.adventofcode.core.Rounds;
+import com.adventofcode.rockpaperscissors.RockPaperScissorsGame;
+import com.adventofcode.rockpaperscissors.Strategy;
+
 class StrategyGuideReader {
 
     private File file;
@@ -16,19 +22,21 @@ class StrategyGuideReader {
 
     Rounds read() throws IOException {
         String input = Files.readString(file.toPath());
-        List<Round> allRounds = new ArrayList<>();
-
-        for (String round : input.split("\\n")) {
-            allRounds.add(getRoundFromStrategyGuide(round));
-        }
-
-        return new Rounds(allRounds);
+        return new Rounds(parseLinesToRounds(input));
     }
 
-    private Round getRoundFromStrategyGuide(String round) {
+    private List<Round> parseLinesToRounds(String input) {
+        List<Round> allRounds = new ArrayList<>();
+        for (String line : input.split("\\n")) {
+            allRounds.add(getRoundFromLine(line));
+        }
+        return allRounds;
+    }
+
+    private Round getRoundFromLine(String round) {
         String[] match = round.split(" ");
-        RockPaperScissors player1Choice = RockPaperScissors.fromString(match[0]);
-        RockPaperScissors player2Choice = RockPaperScissors.withStrategy(player1Choice, match[1]);
+        Entity player1Choice = RockPaperScissorsGame.fromString(match[0]);
+        Entity player2Choice = Strategy.fromString(match[1]).getEntity(player1Choice);
         return new Round(player1Choice, player2Choice);
     }
 

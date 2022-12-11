@@ -1,39 +1,40 @@
 package com.adventofcode;
 
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import static org.hamcrest.Matchers.is;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.Mock;
+
+import com.adventofcode.core.Entity;
+import com.adventofcode.core.Round;
+import com.adventofcode.rockpaperscissors.RockPaperScissorsGame;
 
 @ExtendWith(MockitoExtension.class)
-public class RoundTest {
+class RoundTest {
 	
 	@Test
-	public void shouldLoose() {
-		Round round = new Round(RockPaperScissors.PAPER, RockPaperScissors.ROCK);
+	void shouldLoose() {
+		Entity player1 = RockPaperScissorsGame.PAPER.getEntity();
+		Entity player2 = RockPaperScissorsGame.ROCK.getEntity();
+		Round round = new Round(player1, player2);
 		assertThat(round.getScoreForPlayer2(), is(1));
 	}
 
 	@Test
-	public void shouldWin() {
-		Round round = new Round(RockPaperScissors.SCISSORS, RockPaperScissors.ROCK);
+	void shouldWin() {
+		Entity player1 = RockPaperScissorsGame.SCISSORS.getEntity();
+		Entity player2 = RockPaperScissorsGame.ROCK.getEntity();
+		Round round = new Round(player1, player2);
 		assertThat(round.getScoreForPlayer2(), is(7));
 	}
 
 	@Test
-	public void shouldDraw() {
-		Round round = new Round(RockPaperScissors.PAPER, RockPaperScissors.PAPER);
+	void shouldDraw() {
+		Entity player1 = RockPaperScissorsGame.PAPER.getEntity();
+		Entity player2 = RockPaperScissorsGame.PAPER.getEntity();
+		Round round = new Round(player1, player2);
 		assertThat(round.getScoreForPlayer2(), is(5));
 	}
 }

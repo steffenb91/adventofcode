@@ -14,6 +14,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.adventofcode.core.Round;
+import com.adventofcode.core.Rounds;
+
 import org.mockito.Mock;
 
 import java.util.List;

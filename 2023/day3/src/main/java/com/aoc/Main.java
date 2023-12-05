@@ -26,6 +26,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(new Cards(cards).scoresWithCopies());
+        System.out.println(new Cards(cards).totalCardCount());
     }
 }

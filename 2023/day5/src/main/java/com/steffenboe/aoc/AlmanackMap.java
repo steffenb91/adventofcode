@@ -22,9 +22,9 @@ class AlmanackMap {
 
     Long get(Long key) {
         Map<Long, Long> result = new HashMap<>();
-        for (MappingRule mappingRule : mappingRules) {
-            result.putAll(mappingRule.apply());
-        }
+        mappingRules.stream().parallel().forEach(mappingRule -> {
+            result.putAll(mappingRule.apply(key));
+        });
         if (result.containsKey(key)) {
             return result.get(key);
         } else {

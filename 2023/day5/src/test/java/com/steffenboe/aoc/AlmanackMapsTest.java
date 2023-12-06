@@ -1,18 +1,16 @@
 package com.steffenboe.aoc;
 
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
-public class AlmanackMapsTest {
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+class AlmanackMapsTest {
 
     @Test
-    public void shouldMapAll() {
+    void shouldMapAll() {
         MappingRule seedToSoil1 = new MappingRule(50, 98, 2);
         MappingRule seedToSoil2 = new MappingRule(52, 50, 48);
         MappingRule soilToFertilizer1 = new MappingRule(0, 15, 37);

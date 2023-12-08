@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         String instructions = "LLRLRRRLRRRLRRLLRRRLLRRLLRLRLRRRLRRRLLRRRLLRRRLRRLRRLRLRRLLRRRLRRRLLRRRLRRLLLRRLRLLLRLRRRLRLRLLLRRLRRLLLRRRLLRRRLRLRLLRRLRLRRRLRLRLLRLRRLRRRLRRLRLRRRLRLRRLRRLRLRRLLRLRLRRLRLLRRLRRLRLRRLLRLRLLRRLLRLLLRRLRLRRRLRRRLRRRLRLRLRRRLLLRLRRLRLRRRLRRRLRRRLRLRRRLRRRLRRRLRRRR";
         Map<String, Node> nodes = new HashMap<>();
         Files.readAllLines(Path.of("input.txt")).forEach(line -> {
@@ -21,9 +21,7 @@ public class Main {
             }
         });
         
-        
         Nodes n = new Nodes(instructions, nodes);
-        
-        System.out.println(n.steps("AAA"));
+        System.out.println(n.steps(nodes.keySet().stream().filter(id -> id.endsWith("A")).toList()));
     }
 }

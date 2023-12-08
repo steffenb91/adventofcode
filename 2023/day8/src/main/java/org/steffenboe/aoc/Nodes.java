@@ -11,11 +11,11 @@ record Nodes(String instructions, Map<String, Node> nodes) {
     public long steps(List<String> start) throws InterruptedException {
         long steps1 = 0;
         // für jede Richtung
-        //  neuen Thread pro next Knoten
-        //  alle threads speichern ihren current und next knoten ab
-        // sind alle Knoten auf Z? 
-        //    falls ja, beende und gebe steps zurück
-        //    falls nein, beginne neue Richtung
+        // neuen Thread pro next Knoten
+        // alle threads speichern ihren current und next knoten ab
+        // sind alle Knoten auf Z?
+        // falls ja, beende und gebe steps zurück
+        // falls nein, beginne neue Richtung
         Stream<Character> infiniteStream = Stream.iterate(0, i -> (i + 1) % instructions.toCharArray().length)
                 .map(i -> instructions.toCharArray()[i]);
         Iterator<Character> iterator = infiniteStream.iterator();
@@ -24,19 +24,12 @@ record Nodes(String instructions, Map<String, Node> nodes) {
             List<String> next = new ArrayList<>();
             char instruction = iterator.next();
             for (String node : current) {
-                List<Thread> threads = new ArrayList<>();
-                threads.add(Thread.ofVirtual().start(() -> {
-                    Node currentNode = nodes.get(node);
-                    if (instruction == 'L') {
-                        next.add(currentNode.left());
-                    } else {
-                        next.add(currentNode.right());
-                    }
-                }));
-                for (Thread thread : threads) {
-                    thread.join();
+                Node currentNode = nodes.get(node);
+                if (instruction == 'L') {
+                    next.add(currentNode.left());
+                } else {
+                    next.add(currentNode.right());
                 }
-
             }
             steps1++;
             current = next;
@@ -46,16 +39,17 @@ record Nodes(String instructions, Map<String, Node> nodes) {
         }
 
         return steps1;
+
     }
 
     private long navigate(List<String> start) {
         long steps = 0;
         // für jede Richtung
-        //  neuen Thread pro next Knoten
-        //  alle threads speichern ihren current und next knoten ab
-        // sind alle Knoten auf Z? 
-        //    falls ja, beende und gebe steps zurück
-        //    falls nein, beginne neue Richtung
+        // neuen Thread pro next Knoten
+        // alle threads speichern ihren current und next knoten ab
+        // sind alle Knoten auf Z?
+        // falls ja, beende und gebe steps zurück
+        // falls nein, beginne neue Richtung
         Stream<Character> infiniteStream = Stream.iterate(0, i -> (i + 1) % instructions.toCharArray().length)
                 .map(i -> instructions.toCharArray()[i]);
         Iterator<Character> iterator = infiniteStream.iterator();

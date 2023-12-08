@@ -55,4 +55,10 @@ class CardsTest {
         assertThat(cards.type(), instanceOf(OnePair.class));
 
     }
+
+    @Test
+    void shouldBeFullHouseWithJoker() {
+        Cards cards = new Cards("KK99J");
+        assertThat(cards.type(), instanceOf(FullHouse.class));
+    }
 }

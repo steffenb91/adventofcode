@@ -2,7 +2,6 @@ package com.steffenboe.aoc;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 class MappingRule {
 
@@ -17,13 +16,19 @@ class MappingRule {
     }
 
     Map<Long, Long> apply(long key) {
-        Map<Long, Long> result = new HashMap<>();
+        if(key < sourceRangeStart + rangeLength){
+            return Map.of(key, destinationRangeStart + (key - sourceRangeStart));
+        } else {
+            return new HashMap<>();
+        }
+        
+        /**Map<Long, Long> result = new HashMap<>();
         IntStream.range(0, (int) rangeLength).parallel().forEach(i -> {
             if (key == sourceRangeStart + i) {
                 result.put(sourceRangeStart + i, destinationRangeStart + i);
             }
         });
-        return result;
+        return result;*/
     }
 
 }

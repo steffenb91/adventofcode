@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  */
 public class Day5 {
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
+    public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
         List<AlmanackMap> almanackMaps = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("input.txt"))) {
             String line;
@@ -48,13 +48,22 @@ public class Day5 {
                 if (line.startsWith("seeds:")) {
                     String[] seedLine = line.split("seeds: ")[1].split(" ");
 
+                    List<Thread> threads = new ArrayList<>();
                     for (int i = 0; i < seedLine.length; i += 2) {
+                        System.out.println("processing seeds between: " + seedLine[i] + " " + seedLine[i + 1]);
                         Long seed = Long.parseLong(seedLine[i].strip());
                         Long range = Long.parseLong(seedLine[i + 1].strip());
-                        final AlmanackMaps almanackMapping = new AlmanackMaps(almanackMaps);
-                        System.out.println(IntStream.range(0, range.intValue()).parallel().mapToLong(j -> {
-                            return almanackMapping.get(seed + j);
-                        }).min().getAsLong());
+                        threads.add(Thread.ofVirtual().start(() -> {
+                            final AlmanackMaps almanackMapping = new AlmanackMaps(almanackMaps);
+                            System.out.println(
+                                    "Found minimum: " + IntStream.range(0, range.intValue()).parallel().mapToLong(j -> {
+                                        return almanackMapping.get(seed + j);
+                                    }).min().getAsLong());
+                        }));
+                    }
+                    for (Thread thread : threads) {
+                        System.out.println("Waiting for threads to finish...");
+                        thread.join();
                     }
                 }
             }

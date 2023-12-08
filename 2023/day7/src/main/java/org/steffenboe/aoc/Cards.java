@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-class Cards implements Comparable<Cards>{
+class Cards implements Comparable<Cards> {
 
     private List<Card> all;
 
@@ -14,38 +14,62 @@ class Cards implements Comparable<Cards>{
         this.all = all;
     }
 
-    Cards(String asChars){
+    Cards(String asChars) {
         this.all = parseCards(asChars);
     }
 
     private List<Card> parseCards(String cardsLabels) {
         List<Card> result = new ArrayList<>();
-        for(char cardLabel : cardsLabels.toCharArray()){
+        for (char cardLabel : cardsLabels.toCharArray()) {
             result.add(new Card(CardLabel.of(cardLabel)));
         }
         return result;
     }
 
     Type type() {
-        if (sameOfAKind(5) || sameOfAKind(4) && containsJoker(1)) {
+        if (sameOfAKind(5) || containsJoker(5) || sameOfAKind(4) && containsJoker(1)
+                || sameOfAKind(3) && containsJoker(2)
+                || sameOfAKind(2) && containsJoker(3) || sameOfAKind(1) && containsJoker(4)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a five of a kind");
+            }
             return new FiveOfAKind();
         }
-        if (sameOfAKind(4) || sameOfAKind(3) && containsJoker(1)) {
+        if (sameOfAKind(4) || containsJoker(4) || sameOfAKind(3) && containsJoker(1)
+                || sameOfAKind(2) && containsJoker(2)
+                || sameOfAKind(1) && containsJoker(3)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a four of a kind");
+            }
             return new FourOfAKind();
         }
-        if (sameOfAKind(3) && hasPairs(1) || sameOfAKind(3) && containsJoker(2) || sameOfAKind(2) && containsJoker(3)) {
+        if (sameOfAKind(3) && hasPairs(1) || hasPairs(2) && containsJoker(1)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a full house");
+            }
             return new FullHouse();
         }
-        if (sameOfAKind(3) || sameOfAKind(2) && containsJoker(1)) {
+        if (sameOfAKind(3) || sameOfAKind(2) && containsJoker(1) || sameOfAKind(1) && containsJoker(2)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a three of a kind");
+            }
             return new ThreeOfAKind();
         }
         if (hasPairs(2) || hasPairs(1) && containsJoker(2)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a two pairs");
+            }
             return new TwoPairs();
         }
-        if(hasPairs(1) || sameOfAKind(1) && containsJoker(1)){
+        if (hasPairs(1) || sameOfAKind(1) && containsJoker(1)) {
+            if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+                System.out.println(toString() + " is a one pair");
+            }
             return new OnePair();
         }
-
+        if (all.stream().anyMatch(card -> card.label().equals(CardLabel.J))) {
+            System.out.println(toString() + " is a high card");
+        }
         return new HighCard();
     }
 
@@ -68,19 +92,19 @@ class Cards implements Comparable<Cards>{
     private boolean sameOfAKind(int n) {
         return all.stream()
                 .distinct()
-                .map(element -> all.stream().filter(e -> e.equals(element)).count())
+                .map(element -> all.stream().filter(e -> e.equals(element) && !e.label().equals(CardLabel.J)).count())
                 .filter(elementCount -> elementCount == n)
                 .count() > 0;
     }
 
     @Override
     public int compareTo(Cards other) {
-        if(all.equals(other.all)){
+        if (all.equals(other.all)) {
             return 0;
         }
         for (int i = 0; i < all.size(); i++) {
             int result = all.get(i).label().compareRank(other.all.get(i).label());
-            if(result != 0){
+            if (result != 0) {
                 return result;
             }
         }
@@ -91,6 +115,5 @@ class Cards implements Comparable<Cards>{
     public String toString() {
         return all.stream().map(card -> card.label().asString()).collect(Collectors.joining());
     }
-
 
 }

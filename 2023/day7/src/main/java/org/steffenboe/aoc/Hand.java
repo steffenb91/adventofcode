@@ -1,9 +1,5 @@
 package org.steffenboe.aoc;
 
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
 class Hand implements Comparable<Hand>{
  
     private Cards cards;

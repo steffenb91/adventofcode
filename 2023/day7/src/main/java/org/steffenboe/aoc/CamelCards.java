@@ -11,9 +11,7 @@ class CamelCards {
     }
 
     public int totalWinning() {
-        hands.sort((h1, h2) -> {
-            return h1.compareTo(h2);
-        });
+        hands.sort(Comparable::compareTo);
         int result = 0;
         for (int i = 0; i < hands.size(); i++) {
             result += hands.get(i).bid() * (i + 1);

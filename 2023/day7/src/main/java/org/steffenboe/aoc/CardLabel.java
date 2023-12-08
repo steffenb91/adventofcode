@@ -7,7 +7,7 @@ enum CardLabel {
     A('A', 13),
     K('K', 12),
     Q('Q', 11),
-    J('J', 10),
+    J('J', 0),
     T('T', 9),
     NINE('9', 8),
     EIGHT('8', 7),
@@ -32,8 +32,8 @@ enum CardLabel {
 
 
     int compareRank(CardLabel other) {
-        if(this.equals(CardLabel.J) && !other.equals(CardLabel.J)){
-            return -1;
+        if(other.equals(this)){
+            return 0;
         }
         if(rank > other.rank){
             return 1;

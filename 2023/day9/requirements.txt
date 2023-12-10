@@ -1,0 +1,14 @@
+- sequence: a sequence of how a value changes over time 
+    - can predict its value to the future
+- prediction
+
+- line
+
+
+1. given a sequence, generate a new sequence by calculating the difference between each pair
+2. repeat 1. recursively if the line is not "zeroed", returning a list of sequences
+3. collect all lines
+4. extrapolation: adding a 0 to the end of "zeroed" line
+5. fill in placeholders in each line going upwards again
+6. each placeholder is the sum of the number to the left and underneath
+

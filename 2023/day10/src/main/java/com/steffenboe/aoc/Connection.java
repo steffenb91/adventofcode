@@ -1,4 +1,4 @@
 package com.steffenboe.aoc;
 
-record Connection(Direction direction, Pipe pipe) {
+record Connection(Direction direction, Node pipe) {
 }

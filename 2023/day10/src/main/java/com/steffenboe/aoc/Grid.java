@@ -6,18 +6,18 @@ import java.util.Queue;
 
 class Grid {
 
-    private Pipe[][] pipes;
+    private Node[][] pipes;
 
-    public Grid(Pipe[][] pipes) {
+    public Grid(Node[][] pipes) {
         this.pipes = pipes;
     }
 
-    public Pipe connectPipes() {
-        Pipe startPipe = null;
+    public Node connectPipes() {
+        Node startPipe = null;
         for (int i = 0; i < pipes.length; i++) {
             for (int j = 0; j < pipes.length; j++) {
                 System.out.println(i + ", " + j);
-                Pipe pipe = pipes[i][j];
+                Node pipe = pipes[i][j];
                 if (pipe.isStart()) {
                     startPipe = pipe;
                 }
@@ -40,18 +40,18 @@ class Grid {
     }
 
     int furthestAway() {
-        Pipe startPipe = connectPipes();
-        Queue<Pipe> queue = new LinkedList<>();
+        Node startPipe = connectPipes();
+        Queue<Node> queue = new LinkedList<>();
         queue.add(startPipe);
         startPipe.visit();
         int i = 0;
         while (!queue.isEmpty()) {
             i++;
             System.out.println(i);
-            Pipe currentPipe = queue.poll();
+            Node currentPipe = queue.poll();
             System.out.println("Current pipe: " + currentPipe);
-            for (Connection connection : currentPipe.neighbors()) {
-                Pipe pipe = connection.pipe();
+            for (Connection connection : currentPipe.neighbors('.')) {
+                Node pipe = connection.pipe();
                 if (!pipe.isVisited()) {
                     pipe.visit();
                     queue.add(connection.pipe());
@@ -59,7 +59,11 @@ class Grid {
                 }
             }
         }
-        return Arrays.stream(pipes).flatMap(Arrays::stream).mapToInt(Pipe::getDistanceToStart).max().getAsInt();
+        return Arrays.stream(pipes).flatMap(Arrays::stream).mapToInt(Node::getDistanceToStart).max().getAsInt();
+    }
+
+    public int sumOfShortestPaths() {
+        return 0;
     }
 
 }

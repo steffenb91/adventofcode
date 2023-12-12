@@ -5,13 +5,10 @@ import java.util.List;
 
 class DirectionLimit {
 
-    private char identifier;
     private List<Direction> validDirections = new ArrayList<>(List.of(Direction.values()));
 
     DirectionLimit(char identifier) {
-        this.identifier = identifier;
         if ('S' == identifier) {
-            // TODO hardcoded from puzzle input
             validDirections = new ArrayList<>();
             validDirections.add(Direction.S);
             validDirections.add(Direction.E);

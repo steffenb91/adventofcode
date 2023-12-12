@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
-import java.util.HashSet;
 
 class Grid {
 
@@ -67,25 +65,10 @@ class Grid {
         }
     }
 
-    public int sumOfShortestPaths() {
+    int sumOfShortestPaths() {
         connectPipes();
-
-        List<Node> galaxies = new ArrayList<>();
-        for (int i = 0; i < nodes.length; i++) {
-            for (int j = 0; j < nodes[0].length; j++) {
-                if (nodes[i][j].identifier() != '.') {
-                    galaxies.add(nodes[i][j]);
-                }
-            }
-        }
-        List<Pair> pairs = new ArrayList<>();
-
-        for (int i = 0; i < galaxies.size(); i++) {
-            for (int j = i + 1; j < galaxies.size(); j++) {
-                pairs.add(new Pair(galaxies.get(i), galaxies.get(j)));
-            }
-        }
-
+        List<Node> galaxies = getNonEmptyNodes();
+        List<Pair> pairs = getPairsOfNodes(galaxies);
         int result = 0;
         for (Pair pair : pairs) {
             connectPipes();
@@ -97,8 +80,7 @@ class Grid {
             while (!queue.isEmpty()) {
                 Node currentPipe = queue.poll();
                 if (currentPipe.equals(target)) {
-                    int steps = reconstructPath(start, target);
-                    System.out.println(steps);
+                    int steps = reconstructPath(target);
                     result += steps;
                     break;
                 }
@@ -111,14 +93,35 @@ class Grid {
                     }
                 }
             }
-            System.out.println(": " + pair);
-
         }
 
         return result;
+
     }
 
-    private int reconstructPath(Node start, Node target) {
+    private List<Pair> getPairsOfNodes(List<Node> galaxies) {
+        List<Pair> pairs = new ArrayList<>();
+        for (int i = 0; i < galaxies.size(); i++) {
+            for (int j = i + 1; j < galaxies.size(); j++) {
+                pairs.add(new Pair(galaxies.get(i), galaxies.get(j)));
+            }
+        }
+        return pairs;
+    }
+
+    private List<Node> getNonEmptyNodes() {
+        List<Node> galaxies = new ArrayList<>();
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[0].length; j++) {
+                if (nodes[i][j].identifier() != '.') {
+                    galaxies.add(nodes[i][j]);
+                }
+            }
+        }
+        return galaxies;
+    }
+
+    private int reconstructPath(Node target) {
         List<Node> path = new ArrayList<>();
         Node current = target;
         while (current.getParent() != null) {

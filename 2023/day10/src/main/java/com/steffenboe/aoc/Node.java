@@ -9,17 +9,13 @@ class Node {
     private boolean visited = false;
     private int distanceToStart = 0;
     private char identifier;
-    private int i = 0;
-    private int j = 0;
 
     private DirectionLimit directionLimit;
     private Node parent;
 
-    Node(char identifier, int i, int j) {
+    Node(char identifier) {
         this.directionLimit = new DirectionLimit(identifier);
         this.identifier = identifier;
-        this.i = i;
-        this.j = j;
     }
 
     void addNeighbor(Direction e, Node pipe) {
@@ -63,7 +59,7 @@ class Node {
 
     @Override
     public String toString() {
-        return "Pipe: " + identifier + ": " + i + "," + j;
+        return "Node: " + identifier;
     }
 
     void setParent(Node node) {

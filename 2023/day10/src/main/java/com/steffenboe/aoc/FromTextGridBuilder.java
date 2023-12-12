@@ -18,7 +18,7 @@ class FromTextGridBuilder {
         for (String line : Files.readAllLines(path)) {
             int j = 0;
             for (Character character : line.toCharArray()) {
-                nodes[i][j] = new Node(character, i, j);
+                nodes[i][j] = new Node(character);
                 j++;
             }
             i++;

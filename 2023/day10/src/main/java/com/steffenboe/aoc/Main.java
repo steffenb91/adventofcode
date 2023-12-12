@@ -5,7 +5,7 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Grid grid = new FromTextGridBuilder(Path.of("inputday11.txt")).buildGrid(89, 153);
+        Grid grid = new FromTextGridBuilder(Path.of("inputday11.txt")).buildGrid(12, 13);
         System.out.println(grid.sumOfShortestPaths());
     }
 }

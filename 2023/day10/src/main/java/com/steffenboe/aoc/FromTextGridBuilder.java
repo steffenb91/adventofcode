@@ -13,17 +13,17 @@ class FromTextGridBuilder {
     }
 
     public Grid buildGrid(int rows, int columns) throws IOException {
-        Node[][] pipes = new Node[rows][columns];
+        Node[][] nodes = new Node[rows][columns];
         int i = 0;
         for (String line : Files.readAllLines(path)) {
             int j = 0;
             for (Character character : line.toCharArray()) {
-                pipes[i][j] = new Node(character);
+                nodes[i][j] = new Node(character, i, j);
                 j++;
             }
             i++;
         }
-        return new Grid(pipes);
+        return new Grid(nodes);
     }
 
     

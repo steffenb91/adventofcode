@@ -9,11 +9,17 @@ class Node {
     private boolean visited = false;
     private int distanceToStart = 0;
     private char identifier;
+    private int i = 0;
+    private int j = 0;
 
     private DirectionLimit directionLimit;
+    private Node parent;
 
-    Node(char identifier) {
+    Node(char identifier, int i, int j) {
         this.directionLimit = new DirectionLimit(identifier);
+        this.identifier = identifier;
+        this.i = i;
+        this.j = j;
     }
 
     void addNeighbor(Direction e, Node pipe) {
@@ -23,12 +29,16 @@ class Node {
     }
 
     List<Connection> neighbors(char toExclude) {
-        return connections.stream().filter(connection -> toExclude != connection.pipe().identifier).toList();
+        return connections
+                .stream()
+                .filter(connection -> toExclude != connection.node().identifier)
+                .distinct()
+                .toList();
     }
 
     Node connection(Direction direction) {
         return connections.stream().filter(connection -> direction.equals(connection.direction())).findFirst()
-                .orElse(new Connection(Direction.ZERO, this)).pipe();
+                .orElse(new Connection(Direction.ZERO, this)).node();
     }
 
     boolean isStart() {
@@ -37,7 +47,6 @@ class Node {
 
     void visit() {
         this.visited = true;
-        System.out.println("Visited pipe: " + this);
     }
 
     boolean isVisited() {
@@ -46,7 +55,6 @@ class Node {
 
     void setDistanceToStart(int distanceToStart) {
         this.distanceToStart = distanceToStart;
-        System.out.println("distance to start: " + distanceToStart);
     }
 
     int getDistanceToStart() {
@@ -55,7 +63,31 @@ class Node {
 
     @Override
     public String toString() {
-        return "Pipe: " + identifier;
+        return "Pipe: " + identifier + ": " + i + "," + j;
+    }
+
+    void setParent(Node node) {
+        this.parent = node;
+    }
+
+    Node getParent() {
+        return parent;
+    }
+
+    char identifier() {
+        return identifier;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Node other = (Node) obj;
+        return this == other;
+    }
+
+    public void unvisit() {
+        this.visited = false;
+        this.connections = new ArrayList<>();
+        this.parent = null;
     }
 
 }

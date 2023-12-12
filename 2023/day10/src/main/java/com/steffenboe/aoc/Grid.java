@@ -1,37 +1,42 @@
 package com.steffenboe.aoc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Set;
+import java.util.HashSet;
 
 class Grid {
 
-    private Node[][] pipes;
+    private Node[][] nodes;
 
     public Grid(Node[][] pipes) {
-        this.pipes = pipes;
+        this.nodes = pipes;
     }
 
-    public Node connectPipes() {
+    private Node connectPipes() {
         Node startPipe = null;
-        for (int i = 0; i < pipes.length; i++) {
-            for (int j = 0; j < pipes.length; j++) {
-                System.out.println(i + ", " + j);
-                Node pipe = pipes[i][j];
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[0].length; j++) {
+                Node pipe = nodes[i][j];
+                pipe.unvisit();
                 if (pipe.isStart()) {
                     startPipe = pipe;
                 }
-                if (i + 1 < pipes.length) {
-                    pipe.addNeighbor(Direction.S, pipes[i + 1][j]);
+                if (i + 1 < nodes.length) {
+                    pipe.addNeighbor(Direction.S, nodes[i + 1][j]);
                 }
-                if (j + 1 < pipes.length) {
-                    pipe.addNeighbor(Direction.E, pipes[i][j + 1]);
+                if (j + 1 < nodes[0].length) {
+                    pipe.addNeighbor(Direction.E, nodes[i][j + 1]);
                 }
                 if (i - 1 >= 0) {
-                    pipe.addNeighbor(Direction.N, pipes[i - 1][j]);
+                    pipe.addNeighbor(Direction.N, nodes[i - 1][j]);
                 }
                 if (j - 1 >= 0) {
-                    pipe.addNeighbor(Direction.W, pipes[i][j - 1]);
+                    pipe.addNeighbor(Direction.W, nodes[i][j - 1]);
                 }
 
             }
@@ -44,26 +49,84 @@ class Grid {
         Queue<Node> queue = new LinkedList<>();
         queue.add(startPipe);
         startPipe.visit();
-        int i = 0;
         while (!queue.isEmpty()) {
-            i++;
-            System.out.println(i);
-            Node currentPipe = queue.poll();
-            System.out.println("Current pipe: " + currentPipe);
-            for (Connection connection : currentPipe.neighbors('.')) {
-                Node pipe = connection.pipe();
-                if (!pipe.isVisited()) {
-                    pipe.visit();
-                    queue.add(connection.pipe());
-                    pipe.setDistanceToStart(currentPipe.getDistanceToStart() + 1);
-                }
+            countDistance(queue);
+        }
+        return Arrays.stream(nodes).flatMap(Arrays::stream).mapToInt(Node::getDistanceToStart).max().getAsInt();
+    }
+
+    private void countDistance(Queue<Node> queue) {
+        Node currentNode = queue.poll();
+        for (Connection connection : currentNode.neighbors('.')) {
+            Node node = connection.node();
+            if (!node.isVisited()) {
+                node.visit();
+                queue.add(connection.node());
+                node.setDistanceToStart(currentNode.getDistanceToStart() + 1);
             }
         }
-        return Arrays.stream(pipes).flatMap(Arrays::stream).mapToInt(Node::getDistanceToStart).max().getAsInt();
     }
 
     public int sumOfShortestPaths() {
-        return 0;
+        connectPipes();
+
+        List<Node> galaxies = new ArrayList<>();
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[0].length; j++) {
+                if (nodes[i][j].identifier() != '.') {
+                    galaxies.add(nodes[i][j]);
+                }
+            }
+        }
+        List<Pair> pairs = new ArrayList<>();
+
+        for (int i = 0; i < galaxies.size(); i++) {
+            for (int j = i + 1; j < galaxies.size(); j++) {
+                pairs.add(new Pair(galaxies.get(i), galaxies.get(j)));
+            }
+        }
+
+        int result = 0;
+        for (Pair pair : pairs) {
+            connectPipes();
+            Node start = pair.first();
+            Node target = pair.second();
+            Queue<Node> queue = new LinkedList<>();
+            queue.add(start);
+            start.visit();
+            while (!queue.isEmpty()) {
+                Node currentPipe = queue.poll();
+                if (currentPipe.equals(target)) {
+                    int steps = reconstructPath(start, target);
+                    System.out.println(steps);
+                    result += steps;
+                    break;
+                }
+                for (Connection connection : currentPipe.neighbors('l')) {
+                    Node node = connection.node();
+                    if (!node.isVisited()) {
+                        node.visit();
+                        queue.add(connection.node());
+                        node.setParent(currentPipe);
+                    }
+                }
+            }
+            System.out.println(": " + pair);
+
+        }
+
+        return result;
+    }
+
+    private int reconstructPath(Node start, Node target) {
+        List<Node> path = new ArrayList<>();
+        Node current = target;
+        while (current.getParent() != null) {
+            path.add(current);
+            current = current.getParent();
+        }
+        Collections.reverse(path);
+        return path.size();
     }
 
 }

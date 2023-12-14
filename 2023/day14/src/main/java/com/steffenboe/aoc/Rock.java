@@ -9,10 +9,16 @@ class Rock {
     private final UUID id;
     private final Map<Direction, Rock> neighbours = new EnumMap<>(Direction.class);
     private Position position;
+    private boolean isStationary = false;
 
     Rock(Position position) {
         id = UUID.randomUUID();
         this.position = position;
+    }
+
+    Rock(Position position, boolean isStationary) {
+        this(position);
+        this.isStationary = isStationary;
     }
 
     void updateNeighbour(Direction direction, Rock rock) {
@@ -20,10 +26,21 @@ class Rock {
     }
 
     void moveNorth() {
-        position = position.move(Direction.NORTH);
-        Rock northNeighbor = neighbours.get(Direction.NORTH);
+        if (!isStationary) {
+            pushNeighbor();
+        }
+    }
+
+    private void pushNeighbor() {
+        Direction north = Direction.NORTH;
+        Rock northNeighbor = neighbours.get(north);
         if (northNeighbor != null) {
-            northNeighbor.moveNorth();
+            if (!northNeighbor.isStationary) {
+                position = position.move(Direction.NORTH);
+                northNeighbor.moveNorth();
+            }
+        } else {
+            position = position.move(Direction.NORTH);
         }
     }
 

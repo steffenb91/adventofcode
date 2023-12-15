@@ -27,14 +27,16 @@ class RockTest {
     @Test
     void shouldNotMoveIfStationary() {
         Platform platform = new Platform();
-        Rock rock1 = new Rock(new Position(0, 5), true);
+        Rock rock1 = new Rock(new Position(1, 5), true);
         platform.addRock(rock1);
-        Rock rock2 = new Rock(new Position(0, 6));
+        Rock rock2 = new Rock(new Position(2, 5));
         platform.addRock(rock2);
+        Rock rock3 = new Rock(new Position(0, 5), true);
+        platform.addRock(rock3);
+        
+        assertThat(rock2.moveNorth(), is(false));
 
-        rock2.moveNorth();
-
-        assertThat(rock1.position(), is(new Position(0, 5)));
-        assertThat(rock2.position(), is(new Position(0, 6)));
+        assertThat(rock1.position(), is(new Position(1, 5)));
+        assertThat(rock2.position(), is(new Position(2, 5)));
     }
 }

@@ -25,23 +25,28 @@ class Rock {
         neighbours.put(direction, rock);
     }
 
-    void moveNorth() {
+    public boolean moveNorth() {
         if (!isStationary) {
-            pushNeighbor();
-        }
+            return pushNeighbor();
+        } 
+        return false;
     }
 
-    private void pushNeighbor() {
+    private boolean pushNeighbor() {
         Direction north = Direction.NORTH;
         Rock northNeighbor = neighbours.get(north);
         if (northNeighbor != null) {
             if (!northNeighbor.isStationary) {
-                position = position.move(Direction.NORTH);
-                northNeighbor.moveNorth();
+                if(northNeighbor.moveNorth()){
+                    position = position.move(Direction.NORTH);
+                    return true;
+                }
             }
         } else {
             position = position.move(Direction.NORTH);
+            return true;
         }
+        return false;
     }
 
     Position position() {
@@ -51,6 +56,10 @@ class Rock {
     @Override
     public String toString() {
         return String.format("Rock %s, position: %s", id, position);
+    }
+
+    public boolean isStationary() {
+        return isStationary;
     }
 
 }

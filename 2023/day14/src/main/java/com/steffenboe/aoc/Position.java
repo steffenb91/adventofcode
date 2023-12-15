@@ -4,7 +4,10 @@ record Position(int x, int y) {
 
     Position move(Direction direction) {
         if (direction.equals(Direction.NORTH)) {
-            return new Position(x, y - 1);
+            int newX = x - 1;
+            if(newX >= 0){
+                return new Position(newX, y);
+            }
         }
         return this;
     }

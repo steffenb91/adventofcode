@@ -13,15 +13,15 @@ class RockTest {
     @Test
     void shouldMoveNeighbors() {
         Platform platform = new Platform();
-        Rock rock1 = new Rock(new Position(0, 5));
+        Rock rock1 = new Rock(new Position(1, 3));
         platform.addRock(rock1);
-        Rock rock2 = new Rock(new Position(0, 6));
+        Rock rock2 = new Rock(new Position(2, 3));
         platform.addRock(rock2);
 
         rock2.moveNorth();
 
-        assertThat(rock1.position(), is(new Position(0, 4)));
-        assertThat(rock2.position(), is(new Position(0, 5)));
+        assertThat(rock1.position(), is(new Position(0, 3)));
+        assertThat(rock2.position(), is(new Position(1, 3)));
     }
 
     @Test

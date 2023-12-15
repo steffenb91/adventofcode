@@ -26,9 +26,12 @@ class Rock {
     }
 
     public boolean moveNorth() {
+        if (position.x() == 0) {
+            return false;
+        }
         if (!isStationary) {
             return pushNeighbor();
-        } 
+        }
         return false;
     }
 
@@ -37,7 +40,7 @@ class Rock {
         Rock northNeighbor = neighbours.get(north);
         if (northNeighbor != null) {
             if (!northNeighbor.isStationary) {
-                if(northNeighbor.moveNorth()){
+                if (northNeighbor.moveNorth()) {
                     position = position.move(Direction.NORTH);
                     return true;
                 }

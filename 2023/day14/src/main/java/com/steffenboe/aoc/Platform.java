@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 class Platform {
@@ -55,9 +53,15 @@ class Platform {
             System.out.println("---------------------------------");
             write();
             stoneMoved = false;
-            for (Rock rock : rocks.stream().filter(r -> !r.isStationary()).toList()) {
+            for (Rock rock : rocks.stream().filter(r -> !r.isStationary() && r.position().x() > 0).toList()) {
                 if (rock.moveNorth()) {
                     stoneMoved = true;
+                    if (rock.position().x() > 0) {
+                        rock.updateNeighbour(Direction.NORTH,
+                                rocks.stream().filter(r -> r.position().equals(rock.position().move(Direction.NORTH)))
+                                        .findFirst().orElse(null));
+                    }
+
                 }
                 System.out.println("---------------------------------");
                 write();
@@ -71,7 +75,7 @@ class Platform {
         for (int i = height; i > 0; i--) {
             int l = i;
             long count = rocks.stream()
-                    .filter(rock -> rock.position().x() == (l - 1) && !rock.isStationary())
+                    .filter(rock -> rock.position().x() == height - l && !rock.isStationary())
                     .count();
             result += count * i;
         }

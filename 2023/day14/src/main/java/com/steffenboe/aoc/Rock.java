@@ -29,10 +29,19 @@ class Rock {
         if (position.x() == 0) {
             return false;
         }
-        if (!isStationary) {
-            return pushNeighbor();
+        Rock northNeighbor = this.neighbours.get(Direction.NORTH);
+        if (!isStationary && northNeighbor == null) {
+            return move();
+        } else if (northNeighbor.position.x() != position.x() - 1) {
+            return move();
+        } else {
+            return false;
         }
-        return false;
+    }
+
+    private boolean move() {
+        position = position.move(Direction.NORTH);
+        return true;
     }
 
     private boolean pushNeighbor() {
@@ -41,13 +50,11 @@ class Rock {
         if (northNeighbor != null) {
             if (!northNeighbor.isStationary) {
                 if (northNeighbor.moveNorth()) {
-                    position = position.move(Direction.NORTH);
-                    return true;
+                    return move();
                 }
             }
         } else {
-            position = position.move(Direction.NORTH);
-            return true;
+            return move();
         }
         return false;
     }

@@ -9,6 +9,6 @@ class CardLabelTest {
 
     @Test
     void jshouldBeWeakest() { 
-       assertThat(CardLabel.J.compareRank(CardLabel.TWO), is(-1)); 
+       assertThat(Card.J.compareRank(Card.TWO), is(-1)); 
     }
 }
